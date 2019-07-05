@@ -116,6 +116,9 @@ int main(int argc, char *argv[]) {
   int r = EXIT_FAILURE;
   boost::signals2::connection conn;
 
+  auto campaigns;
+  std::string campaign_id;
+
   try {
     Config config(commandline_map);
     LOG_DEBUG << "Current directory: " << boost::filesystem::current_path().string();
@@ -140,13 +143,20 @@ int main(int argc, char *argv[]) {
         aktualizr.Install(current_updates);
         current_updates.clear();
       } else if (buffer == "campaigncheck") {
-        aktualizr.CampaignCheck();
+        campaigns = aktualizr.CampaignCheck();
+      } else if (buffer == "campaignaccept") {
+        for (const auto &c : campaigns) {
+          campaign_id = c.id;
+        }
+        aktualizr.CampaignControl(campaign_id, campaign::Cmd::Accept);
       } else if (buffer == "pause") {
         aktualizr.Pause();
       } else if (buffer == "resume") {
         aktualizr.Resume();
       } else if (buffer == "abort") {
         aktualizr.Abort();
+      } else if (buffer == "lucid") {
+        std::cout << "Lucid Air Project\n";
       } else if (!buffer.empty()) {
         std::cout << "Unknown command.\n";
       }
