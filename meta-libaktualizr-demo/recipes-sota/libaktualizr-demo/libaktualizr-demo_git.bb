@@ -10,9 +10,10 @@ PR = "9"
 DEPENDS = "boost curl openssl libarchive libsodium sqlite3 asn1c-native"
 
 SRC_URI = " \
-  gitsm://github.com/advancedtelematic/libaktualizr-demo;protocol=https \
+  gitsm://github.com/prateek-khatri/libaktualizr-demo;protocol=https;branch=LucidTest \
   file://10-defaults.toml \
   "
+#https://github.com/prateek-khatri/libaktualizr-demo.git
 
 SRC_URI_append = "${@('file://' + d.getVar('SOTA_PACKED_CREDENTIALS', True)) if d.getVar('SOTA_PACKED_CREDENTIALS', True) else ''}"
 
