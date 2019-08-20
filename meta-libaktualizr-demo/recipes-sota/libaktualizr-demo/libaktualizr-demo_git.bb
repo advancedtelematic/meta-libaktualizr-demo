@@ -10,7 +10,7 @@ PR = "9"
 DEPENDS = "boost curl openssl libarchive libsodium sqlite3 asn1c-native"
 
 SRC_URI = " \
-  gitsm://github.com/advancedtelematic/libaktualizr-demo;protocol=https \
+  gitsm://github.com/advancedtelematic/libaktualizr-demo-app;protocol=https \
   file://10-defaults.toml \
   "
 
