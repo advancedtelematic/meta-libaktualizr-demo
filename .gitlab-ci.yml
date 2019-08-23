@@ -1,0 +1,19 @@
+variables:
+  GIT_CLONE_PATH: $CI_BUILDS_DIR/meta-libaktualizr-demo
+
+image: "crops/yocto:ubuntu-18.04-base"
+
+build:
+  script:
+    - cd ..
+    - git clone -b warrior https://git.yoctoproject.org/git/poky
+    - git clone -b warrior https://github.com/openembedded/meta-openembedded.git
+    - source poky/oe-init-build-env
+    - export LC_ALL=en_US.UTF-8
+    - export LANG=en_US.UTF-8
+    - bitbake-layers add-layer ../meta-libaktualizr-demo
+    - bitbake-layers add-layer ../meta-openembedded/meta-oe
+    - echo 'DL_DIR = "${TOPDIR}/../meta-libaktualizr-demo/downloads"' >> conf/local.conf
+    - echo 'SSTATE_DIR = "${TOPDIR}/../meta-libaktualizr-demo/sstate-cache"' >> conf/local.conf
+    - echo 'IMAGE_INSTALL_append = " libaktualizr-demo"' >> conf/local.conf
+    - MACHINE="qemux86-64" bitbake core-image-minimal
