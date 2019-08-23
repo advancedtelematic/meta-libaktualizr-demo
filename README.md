@@ -1,4 +1,4 @@
-# libaktualizr-demo
+# meta-libaktualizr-demo
 
 This is a sample yocto layer for integrating libaktualizr. It allows to build the sample application which can be found at <https://github.com/advancedtelematic/libaktualizr-demo-app>.
 

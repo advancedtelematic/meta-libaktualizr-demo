@@ -19,7 +19,7 @@ SRC_URI_append = "${@('file://' + d.getVar('SOTA_PACKED_CREDENTIALS', True)) if 
 SRCREV = "${AUTOREV}"
 BRANCH = "master"
 
-S = "${WORKDIR}/git/demo-app"
+S = "${WORKDIR}/git"
 
 inherit cmake
 
