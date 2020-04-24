@@ -23,7 +23,8 @@ S = "${WORKDIR}/git"
 
 inherit cmake
 
-EXTRA_OECMAKE = " -DBUILD_SYSTEMD=OFF"
+# For find_package(Git)
+OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM = "BOTH"
 
 do_install_append () {
   install -m 0700 -d ${D}${libdir}/sota/conf.d
@@ -36,7 +37,10 @@ do_install_append () {
 
 FILES_${PN} += " \
   ${bindir}/libaktualizr-demo-app \
+  ${libdir}/libaktualizr.so \
+  ${libdir}/libaktualizr_secondary.so \
   ${libdir}/sota/sota.toml \
   ${libdir}/sota/conf.d \
   ${localstatedir}/sota/sota_provisioning_credentials.zip \
   "
+FILES_${PN}-dev = ""
