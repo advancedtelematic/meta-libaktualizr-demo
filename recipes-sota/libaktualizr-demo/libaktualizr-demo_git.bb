@@ -8,13 +8,11 @@ PV = "1.0+git${SRCPV}"
 PR = "9"
 
 DEPENDS = "boost curl openssl libarchive libsodium sqlite3 asn1c-native"
+RDEPENDS_${PN} = "aktualizr-lib aktualizr-secondary-lib"
 
 SRC_URI = " \
   gitsm://github.com/advancedtelematic/libaktualizr-demo-app;protocol=https \
-  file://10-defaults.toml \
   "
-
-SRC_URI_append = "${@('file://' + d.getVar('SOTA_PACKED_CREDENTIALS', True)) if d.getVar('SOTA_PACKED_CREDENTIALS', True) else ''}"
 
 SRCREV = "${AUTOREV}"
 BRANCH = "master"
@@ -27,20 +25,14 @@ inherit cmake
 OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM = "BOTH"
 
 do_install_append () {
-  install -m 0700 -d ${D}${libdir}/sota/conf.d
-  install -m 0644 ${WORKDIR}/10-defaults.toml ${D}/${libdir}/sota/conf.d/10-defaults.toml
-  if [ -n "${SOTA_PACKED_CREDENTIALS}" ]; then
-      install -m 0700 -d ${D}${localstatedir}/sota
-      cp "${SOTA_PACKED_CREDENTIALS}" ${D}${localstatedir}/sota/sota_provisioning_credentials.zip
-  fi
+  rm ${D}/${bindir}/aktualizr-get
+  rm ${D}/${bindir}/uptane-generator
+  rm ${D}/${bindir}/aktualizr-info
+  rm ${D}/${bindir}/aktualizr-secondary
+  rm ${D}/${bindir}/aktualizr-cert-provider
+  rm ${D}/${bindir}/aktualizr
+  rm -r ${D}${libdir}
 }
 
-FILES_${PN} += " \
-  ${bindir}/libaktualizr-demo-app \
-  ${libdir}/libaktualizr.so \
-  ${libdir}/libaktualizr_secondary.so \
-  ${libdir}/sota/sota.toml \
-  ${libdir}/sota/conf.d \
-  ${localstatedir}/sota/sota_provisioning_credentials.zip \
-  "
+FILES_${PN} = "${bindir}/libaktualizr-demo-app"
 FILES_${PN}-dev = ""
